@@ -13,8 +13,7 @@ class CupertinoContainerViewFactory: NSObject, FlutterPlatformViewFactory {
     return FlutterStandardMessageCodec.sharedInstance()
   }
 
-  func create(withFrame frame: CGRect, viewIdentifier viewId: Int64, arguments args: Any?) -> FlutterPlatformView {
-    return CupertinoContainerPlatformView(frame: frame, viewId: viewId, args: args, messenger: messenger)
-  }
+    func create(withFrame frame: CGRect, viewIdentifier viewId: Int64, arguments args: Any?) -> FlutterPlatformView {
+        return CupertinoContainerPlatformView(frame: frame, viewIdentifier: viewId, arguments: args)
+    }
 }
-

@@ -9,7 +9,14 @@ class ContainerDemoPage extends StatelessWidget {
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(middle: Text('Container Demo')),
       child: SafeArea(
-        child: CNContainer(),
+        child: Center(
+          child: CNContainer(
+            width: 100,
+            height: 100,
+            isInteractive: true,
+            style: GlassStyle.regular,
+          ),
+        ),
       ),
     );
   }

@@ -40,7 +40,7 @@ class CNContainer extends StatelessWidget {
       width: width,
       height: height,
       child: UiKitView(
-        viewType: 'glass_container_view',  // iOS da ro'yxatdan o'tkazilgan
+        viewType: 'CupertinoNativeContainer',  // iOS da ro'yxatdan o'tkazilgan
         creationParams: {
           'style': style.toString().split('.').last,  // 'regular' yoki 'prominent'
           'radius': borderRadius?.resolve(TextDirection.ltr).topLeft.x ?? 12,
