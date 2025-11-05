@@ -1,25 +1,17 @@
 import UIKit
 import Flutter
 
-// Glass stili enum (Apple docs ga asoslanib)
+// Glass stili enum (Apple docs ga asoslanib, fallback bilan)
 enum GlassStyle: String {
     case regular
     case prominent
     case ultraThin  // Qo'shimcha, agar kerak bo'lsa
 
-    var uiStyle: Any {  // UIKit ga moslashtirish
+    var blurStyle: UIBlurEffect.Style {
         switch self {
-        case .prominent: return UIGlassEffect.Style.prominent  // iOS 18+
-        case .ultraThin: return UIGlassEffect.Style.ultraThin
-        default: return UIGlassEffect.Style.regular
-        }
-    }
-
-    var fallbackBlurStyle: UIBlurEffect.Style {
-        switch self {
-        case .prominent: return .systemThickMaterial
-        case .ultraThin: return .systemUltraThinMaterial
-        default: return .systemMaterial  // Liquid Glass ga yaqin
+        case .prominent: return .systemThickMaterial  // Kuchliroq blur
+        case .ultraThin: return .systemUltraThinMaterial  // Nozik
+        default: return .systemMaterial  // Liquid Glass ga yaqin (iOS 13+)
         }
     }
 }
@@ -37,43 +29,24 @@ class CupertinoContainerPlatformView: NSObject, FlutterPlatformView {
 
         let glassStyle = GlassStyle(rawValue: styleStr) ?? .regular
 
-        // Liquid Glass effekti: iOS 18+ da UIGlassEffect, aks holda fallback
-        if #available(iOS 18.0, *) {
-            let glassEffectStyle = glassStyle.uiStyle as! UIGlassEffect.Style
-            let glassEffect = UIGlassEffect(style: glassEffectStyle)
-            effectView = UIVisualEffectView(effect: glassEffect)
-        } else {
-            let blurEffect = UIBlurEffect(style: glassStyle.fallbackBlurStyle)
-            effectView = UIVisualEffectView(effect: blurEffect)
-        }
-
+        // Liquid Glass simulyatsiyasi: UIBlurEffect (har doim mavjud)
+        let blurEffect = UIBlurEffect(style: glassStyle.blurStyle)
+        effectView = UIVisualEffectView(effect: blurEffect)
         effectView.frame = frame
         effectView.layer.cornerRadius = radius
         effectView.clipsToBounds = true
         effectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
-        // Vibrancy qo'shish (Liquid Glass uchun – container effect bilan)
-        if #available(iOS 18.0, *) {
-            // UIGlassContainerEffect: Ichki elementlarni Liquid Glass bilan bog'lash
-            let containerEffect = UIGlassContainerEffect(style: .regular)  // Custom views uchun
-            let vibrancyEffect = UIVibrancyEffect(glassEffect: containerEffect)  // Yangi vibrancy
-            let vibrancyView = UIVisualEffectView(effect: vibrancyEffect)
-            vibrancyView.frame = effectView.bounds
-            effectView.contentView.addSubview(vibrancyView)
-        } else {
-            // Eski vibrancy
-            if let blurEffect = effectView.effect as? UIBlurEffect {
-                let vibrancyEffect = UIVibrancyEffect(blurEffect: blurEffect)
-                let vibrancyView = UIVisualEffectView(effect: vibrancyEffect)
-                vibrancyView.frame = effectView.bounds
-                effectView.contentView.addSubview(vibrancyView)
-            }
-        }
+        // Vibrancy qo'shish (Liquid Glass uchun – standart vibrancy)
+        let vibrancyEffect = UIVibrancyEffect(blurEffect: blurEffect)
+        let vibrancyView = UIVisualEffectView(effect: vibrancyEffect)
+        vibrancyView.frame = effectView.bounds
+        effectView.contentView.addSubview(vibrancyView)
 
         // Ichki kontent (Flutter child ni embed qilish uchun placeholder)
-        contentView = UIView(frame: effectView.bounds)  // vibrancyView o'rniga effectView
+        contentView = UIView(frame: vibrancyView.bounds)
         contentView.backgroundColor = .clear
-        effectView.contentView.addSubview(contentView)  // To'g'ridan contentView ga
+        vibrancyView.contentView.addSubview(contentView)
 
         // Super.init ni shu yerda chaqirish – barcha properties initsializatsiya qilingan
         super.init()
