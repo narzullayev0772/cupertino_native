@@ -1,12 +1,14 @@
 import 'package:cupertino_native/cupertino_native.dart';
 import 'package:flutter/cupertino.dart';
-import 'demos/slider.dart';
-import 'demos/switch.dart';
-import 'demos/segmented_control.dart';
-import 'demos/tab_bar.dart';
+
+import 'demos/button.dart';
 import 'demos/icon.dart';
 import 'demos/popup_menu_button.dart';
-import 'demos/button.dart';
+import 'demos/segmented_control.dart';
+import 'demos/slider.dart';
+import 'demos/switch.dart';
+import 'demos/tab_bar.dart';
+import 'demos/container.dart';
 
 void main() {
   runApp(const MyApp());
@@ -91,11 +93,7 @@ class HomePage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             CNPopupMenuButton.icon(
-              buttonIcon: CNSymbol(
-                'paintpalette.fill',
-                size: 18,
-                mode: CNSymbolRenderingMode.multicolor,
-              ),
+              buttonIcon: CNSymbol('paintpalette.fill', size: 18, mode: CNSymbolRenderingMode.multicolor),
               tint: accentColor,
               items: [
                 for (final entry in _systemColors)
@@ -111,10 +109,7 @@ class HomePage extends StatelessWidget {
               },
             ),
             const SizedBox(width: 8),
-            CNButton.icon(
-              icon: CNSymbol(isDarkMode ? 'sun.max' : 'moon', size: 18),
-              onPressed: onToggleTheme,
-            ),
+            CNButton.icon(icon: CNSymbol(isDarkMode ? 'sun.max' : 'moon', size: 18), onPressed: onToggleTheme),
           ],
         ),
       ),
@@ -125,41 +120,35 @@ class HomePage extends StatelessWidget {
             header: Text('Components'),
             children: [
               CupertinoListTile(
-                title: Text('Slider'),
-                leading: CNIcon(
-                  symbol: CNSymbol('slider.horizontal.3', color: accentColor),
-                ),
+                title: Text('Container'),
+                leading: CNIcon(symbol: CNSymbol('rectangle', color: accentColor)),
                 trailing: CupertinoListTileChevron(),
                 onTap: () {
-                  Navigator.of(context).push(
-                    CupertinoPageRoute(builder: (_) => const SliderDemoPage()),
-                  );
+                  Navigator.of(context).push(CupertinoPageRoute(builder: (_) => const ContainerDemoPage()));
+                },
+              ),
+              CupertinoListTile(
+                title: Text('Slider'),
+                leading: CNIcon(symbol: CNSymbol('slider.horizontal.3', color: accentColor)),
+                trailing: CupertinoListTileChevron(),
+                onTap: () {
+                  Navigator.of(context).push(CupertinoPageRoute(builder: (_) => const SliderDemoPage()));
                 },
               ),
               CupertinoListTile(
                 title: Text('Switch'),
-                leading: CNIcon(
-                  symbol: CNSymbol('switch.2', color: accentColor),
-                ),
+                leading: CNIcon(symbol: CNSymbol('switch.2', color: accentColor)),
                 trailing: CupertinoListTileChevron(),
                 onTap: () {
-                  Navigator.of(context).push(
-                    CupertinoPageRoute(builder: (_) => const SwitchDemoPage()),
-                  );
+                  Navigator.of(context).push(CupertinoPageRoute(builder: (_) => const SwitchDemoPage()));
                 },
               ),
               CupertinoListTile(
                 title: Text('Segmented Control'),
-                leading: CNIcon(
-                  symbol: CNSymbol('rectangle.split.3x1', color: accentColor),
-                ),
+                leading: CNIcon(symbol: CNSymbol('rectangle.split.3x1', color: accentColor)),
                 trailing: CupertinoListTileChevron(),
                 onTap: () {
-                  Navigator.of(context).push(
-                    CupertinoPageRoute(
-                      builder: (_) => const SegmentedControlDemoPage(),
-                    ),
-                  );
+                  Navigator.of(context).push(CupertinoPageRoute(builder: (_) => const SegmentedControlDemoPage()));
                 },
               ),
               CupertinoListTile(
@@ -167,35 +156,23 @@ class HomePage extends StatelessWidget {
                 leading: CNIcon(symbol: CNSymbol('app', color: accentColor)),
                 trailing: CupertinoListTileChevron(),
                 onTap: () {
-                  Navigator.of(context).push(
-                    CupertinoPageRoute(builder: (_) => const IconDemoPage()),
-                  );
+                  Navigator.of(context).push(CupertinoPageRoute(builder: (_) => const IconDemoPage()));
                 },
               ),
               CupertinoListTile(
                 title: Text('Popup Menu Button'),
-                leading: CNIcon(
-                  symbol: CNSymbol('ellipsis.circle', color: accentColor),
-                ),
+                leading: CNIcon(symbol: CNSymbol('ellipsis.circle', color: accentColor)),
                 trailing: CupertinoListTileChevron(),
                 onTap: () {
-                  Navigator.of(context).push(
-                    CupertinoPageRoute(
-                      builder: (_) => const PopupMenuButtonDemoPage(),
-                    ),
-                  );
+                  Navigator.of(context).push(CupertinoPageRoute(builder: (_) => const PopupMenuButtonDemoPage()));
                 },
               ),
               CupertinoListTile(
                 title: Text('Button'),
-                leading: CNIcon(
-                  symbol: CNSymbol('hand.tap', color: accentColor),
-                ),
+                leading: CNIcon(symbol: CNSymbol('hand.tap', color: accentColor)),
                 trailing: CupertinoListTileChevron(),
                 onTap: () {
-                  Navigator.of(context).push(
-                    CupertinoPageRoute(builder: (_) => const ButtonDemoPage()),
-                  );
+                  Navigator.of(context).push(CupertinoPageRoute(builder: (_) => const ButtonDemoPage()));
                 },
               ),
             ],
@@ -205,14 +182,10 @@ class HomePage extends StatelessWidget {
             children: [
               CupertinoListTile(
                 title: Text('Tab Bar'),
-                leading: CNIcon(
-                  symbol: CNSymbol('square.grid.2x2', color: accentColor),
-                ),
+                leading: CNIcon(symbol: CNSymbol('square.grid.2x2', color: accentColor)),
                 trailing: CupertinoListTileChevron(),
                 onTap: () {
-                  Navigator.of(context).push(
-                    CupertinoPageRoute(builder: (_) => const TabBarDemoPage()),
-                  );
+                  Navigator.of(context).push(CupertinoPageRoute(builder: (_) => const TabBarDemoPage()));
                 },
               ),
             ],
